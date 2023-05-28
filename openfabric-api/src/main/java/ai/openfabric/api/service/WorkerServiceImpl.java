@@ -1,9 +1,12 @@
 package ai.openfabric.api.service;
 
 import ai.openfabric.api.model.Worker;
+import ai.openfabric.api.model.WorkerInfo;
+import ai.openfabric.api.repository.WorkerInfoRepository;
 import ai.openfabric.api.repository.WorkerRepository;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.api.model.Statistics;
 import com.github.dockerjava.core.InvocationBuilder;
@@ -19,6 +22,9 @@ public class WorkerServiceImpl implements WorkerService{
 
     @Autowired
     private WorkerRepository workerRepository;
+
+    @Autowired
+    private WorkerInfoRepository workerInfoRepository;
 
     private final DockerClient dockerClient;
 
@@ -76,5 +82,23 @@ public class WorkerServiceImpl implements WorkerService{
             throw new NotFoundException("Container not found for name "+containerName);
         }
         return stats;
+    }
+
+    @Override
+    public WorkerInfo getContainer(String containerName) {
+        try {
+            InspectContainerResponse containerInfo = dockerClient.inspectContainerCmd(containerName).exec();
+            WorkerInfo workerInfo = new WorkerInfo();
+            workerInfo.setName(containerInfo.getName());
+            workerInfo.setImageId(containerInfo.getImageId());
+            workerInfo.setPlatform(containerInfo.getPlatform());
+            workerInfo.setRestartCount(containerInfo.getRestartCount());
+            workerInfo.setState(containerInfo.getState().getStatus());
+            workerInfoRepository.save(workerInfo);
+            return workerInfo;
+
+        } catch (NotFoundException e) {
+            throw new NotFoundException("Container not found for name "+containerName);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package ai.openfabric.api.controller;
 
 import ai.openfabric.api.model.Worker;
+import ai.openfabric.api.model.WorkerInfo;
 import ai.openfabric.api.service.WorkerService;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Statistics;
@@ -17,7 +18,7 @@ public class WorkerController {
     @Autowired
     private WorkerService workerService;
 
-    @GetMapping(path="/containers")
+    @GetMapping(path="/all")
     public Page<Worker> getAllContainers(Pageable page){
         return workerService.listContainers(page);
     }
@@ -28,12 +29,12 @@ public class WorkerController {
         return workerService.createContainer(worker);
     }
 
-    @PutMapping(path = "/start/container")
+    @PutMapping(path = "/start")
     public String startContainer(@RequestParam("name") String containerName) {
         return workerService.startContainer(containerName);
     }
 
-    @PutMapping(path = "/stop/container")
+    @PutMapping(path = "/stop")
     public String stopContainer(@RequestParam("name") String containerName) {
         return workerService.stopContainer(containerName);
     }
@@ -41,6 +42,11 @@ public class WorkerController {
     @GetMapping(path = "/stats/{containerName}")
     public Statistics getContainerStats(@PathVariable("containerName") String containerName) {
         return workerService.getContainerStats(containerName);
+    }
+
+    @GetMapping(path="/{containerName}")
+    public WorkerInfo getContainer(@PathVariable("containerName") String containerName) {
+        return workerService.getContainer(containerName);
     }
 
 
