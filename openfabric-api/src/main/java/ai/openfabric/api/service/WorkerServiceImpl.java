@@ -81,6 +81,7 @@ public class WorkerServiceImpl implements WorkerService{
         } catch (NotFoundException | IOException e) {
             throw new NotFoundException("Container not found for name "+containerName);
         }
+
         return stats;
     }
 
