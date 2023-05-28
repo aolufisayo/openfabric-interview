@@ -29,19 +29,24 @@
     </changeSet>
 
     <!-- ############################################################ -->
-    <!--  Worker  -->
+    <!--  Worker  Info-->
     <!-- ############################################################ -->
-    <changeSet id="WO_02" author="andrei">
-        <createTable tableName="worker" remarks="Worker table">
+    <changeSet id="WO_03" author="olufisayo">
+        <createTable tableName="worker_info" remarks="Worker_info table">
             <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="varchar(255)"/>
-            <column name="image" type="varchar(255)"/>
+            <column name="image_id" type="varchar(255)"/>
+            <column name="state" type="varchar(255)"/>
+            <column name="platform" type="varchar(255)"/>
+            <column name="restart_count" type="int"/>
+
             <column name="created_at" type="DATETIME"/>
             <column name="updated_at" type="DATETIME"/>
             <column name="deleted_at" type="DATETIME"/>
         </createTable>
+
     </changeSet>
 
 

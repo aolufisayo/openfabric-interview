@@ -1,6 +1,5 @@
 package ai.openfabric.api.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -8,9 +7,11 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity()
-@Table(name = "worker")
-public class Worker extends Datable implements Serializable {
+
+
+@Entity
+@Table(name = "worker_info")
+public class WorkerInfo extends Datable implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "of-uuid")
@@ -25,7 +26,19 @@ public class Worker extends Datable implements Serializable {
 
     @Getter
     @Setter
-    public String image;
+    public String imageId;
+
+    @Getter
+    @Setter
+    public String state;
+
+    @Getter
+    @Setter
+    public String platform;
+
+    @Getter
+    @Setter
+    public int restartCount;
 
 
 }
