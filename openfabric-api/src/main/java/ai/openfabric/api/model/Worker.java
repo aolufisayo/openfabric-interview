@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity()
+@Table(name = "worker")
 public class Worker extends Datable implements Serializable {
 
     @Id
@@ -21,7 +19,13 @@ public class Worker extends Datable implements Serializable {
     @Setter
     public String id;
 
+    @Getter
+    @Setter
     public String name;
+
+    @Getter
+    @Setter
+    public String image;
 
 
 }

@@ -9,8 +9,6 @@ import com.github.dockerjava.transport.DockerHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.IOException;
-
 @Configuration
 public class DockerConfig {
 
@@ -26,11 +24,7 @@ public class DockerConfig {
             .build();
 
         DockerClient dockerClient = DockerClientImpl.getInstance(config, httpClient);
-        try {
-            httpClient.close();
-        }catch (IOException e){
-            throw new RuntimeException(e);
-        }
+
         return dockerClient;
     }
 }
